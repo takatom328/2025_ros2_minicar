@@ -5,7 +5,51 @@ from ackermann_msgs.msg import AckermannDriveStamped
 
 import board
 import busio
-from adafruit_pca9685 import PCA9685
+try:
+    from adafruit_pca9685 import PCA9685
+except ImportError:
+    # Fallback to old library
+    import Adafruit_PCA9685
+    # Create a wrapper class
+    class PCA9685:
+        def __init__(self, i2c):
+            self._pca = Adafruit_PCA9685.PCA9685()
+
+        @property
+        def frequency(self):
+            return self._freq
+
+        @frequency.setter
+        def frequency(self, freq):
+            self._freq = freq
+            self._pca.set_pwm_freq(freq)
+
+        @property
+        def channels(self):
+            return self._channels
+
+        def __init__(self, i2c):
+            self._pca = Adafruit_PCA9685.PCA9685()
+            self._freq = 50
+            self._channels = [self._Channel(self._pca, i) for i in range(16)]
+
+        class _Channel:
+            def __init__(self, pca, channel):
+                self._pca = pca
+                self._channel = channel
+
+            @property
+            def duty_cycle(self):
+                return self._duty
+
+            @duty_cycle.setter
+            def duty_cycle(self, value):
+                self._duty = value
+                pulse = int(value / 65535.0 * 4095)
+                self._pca.set_pwm(self._channel, 0, pulse)
+
+        def deinit(self):
+            pass
 
 
 def clamp(x, lo, hi):
