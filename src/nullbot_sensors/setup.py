@@ -26,6 +26,9 @@ setup(
         'console_scripts': [
             'ultrasonic_node = nullbot_sensors.ultrasonic_node:main',
             'range_kalman_filter = nullbot_sensors.range_kalman_filter:main',
+            'vl53l0x_triplet_node = nullbot_sensors.vl53l0x_triplet_node:main',
+            'dataset_recorder_3range_ackermann = nullbot_sensors.dataset_recorder_3range_ackermann:main',
+
 
         ],
     },
