@@ -1,0 +1,23 @@
+# Ignore build and install directories (colcon)
+build/
+install/
+log/
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*.pyo
+env/
+venv/
+.venv/
+
+# Editor / OS
+.vscode/
+.DS_Store
+*.swp
+
+# CMake / build system
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
